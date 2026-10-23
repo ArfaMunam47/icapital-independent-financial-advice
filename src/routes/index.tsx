@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import s1 from "@/assets/s1-mountain.jpg";
-import s2 from "@/assets/s2-ridge.jpg";
-import s3 from "@/assets/s6-alpine.jpg";
-import s4 from "@/assets/s3-trail.jpg";
-import s5 from "@/assets/s4-beach.jpg";
-import s8 from "@/assets/s5-silhouette.jpg";
+import { useStoryProgress } from "@/hooks/use-story-progress";
+import { StoryLandscape } from "@/components/story-landscape";
+import ridge from "@/assets/reference-scene_02_2segs_HD.mp4.asset.json";
+import alpine from "@/assets/reference-scene_03_2segs_HD.mp4.asset.json";
+import trail from "@/assets/reference-scene_04_3segs_HD.mp4.asset.json";
+import arch from "@/assets/reference-scene_05_2segs_HD.mp4.asset.json";
+import beach from "@/assets/reference-scene_06_2segs_HD.mp4.asset.json";
+import ridgePoster from "@/assets/reference-scene_02_2segs_HD.mp4.jpg.asset.json";
+import alpinePoster from "@/assets/reference-scene_03_2segs_HD.mp4.jpg.asset.json";
+import trailPoster from "@/assets/reference-scene_04_3segs_HD.mp4.jpg.asset.json";
+import archPoster from "@/assets/reference-scene_05_2segs_HD.mp4.jpg.asset.json";
+import beachPoster from "@/assets/reference-scene_06_2segs_HD.mp4.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,33 +29,35 @@ export const Route = createFileRoute("/")({
 
 const A = ({ children }: { children: ReactNode }) => <em className="accent-word">{children}</em>;
 
-type Scene = { bg: "img" | "birds" | "stars" | "vision"; src?: string; title: ReactNode; body?: ReactNode; pos?: string };
+type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "stars" | "vision"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean };
 
 const scenes: Scene[] = [
   {
-    bg: "img", src: s1,
+    bg: "opening",
     title: <>The value is in the <A>journey</A></>,
     body: <>For 20 years we have guided your wealth with judgement and independence, because the journey matters as much as reaching the destination</>,
   },
-  { bg: "img", src: s2, title: <>The decisions that<br />matter most demand<br /><A>perspective</A></> },
+  { bg: "video", src: ridge.url, poster: ridgePoster.url, title: <>The decisions that<br />matter most demand<br /><A>perspective</A></> },
+  { bg: "video", src: alpine.url, poster: alpinePoster.url, mist: true, tone: "dark", center: true, title: <>They do not<br />just <A>alter</A> the<br />destination</> },
   {
-    bg: "img", src: s3,
+    bg: "vision", center: true,
     title: <>Our <A>compass:</A></>,
     body: <>A life lived with independence, a long-term vision and interests that are always aligned with yours</>,
   },
-  { bg: "img", src: s4, title: <>No two<br /><A>journeys</A> are<br />travelled alike</> },
-  { bg: "img", src: s5, title: <><A>Neither</A><br />do we</> },
+  { bg: "video", src: trail.url, poster: trailPoster.url, tone: "dark", title: <>Some fortunes<br />speak<br />of <A>legacy</A></> },
+  { bg: "video", src: trail.url, poster: trailPoster.url, mist: true, tone: "dark", title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
+  { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
-  {
-    bg: "stars",
-    title: <>Some fortunes speak of <A>legacy</A></>,
-    body: <>Whether you are a family, an institution or a company, we are by your side to preserve, grow and project your future</>,
-  },
-  { bg: "img", src: s8, title: <>We take<br />your side</> },
-  { bg: "vision", title: <>Vision matters<br />when it becomes<br />a <A>decision</A></> },
+  { bg: "vision", center: true, title: <>Vision matters<br />when it becomes<br />a <A>decision</A></> },
+  { bg: "stars", center: true, title: <>We turn<br />complexity into judgement,<br />context into clarity<br />and vision into decisions</> },
+  { bg: "stars", center: true, title: <>Never hurry the <A>journey</A></> },
+  { bg: "sunset", center: true, title: <>We take<br />your side</> },
+  { bg: "video", src: arch.url, poster: archPoster.url, title: <>Every journey<br />opens a new <A>perspective</A></> },
+  { bg: "vision", center: true, title: <>Our <A>compass:</A></>, body: <>Your life goals, with independence, long-term vision and aligned interests</> },
 ];
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = (v: number) => { const t = clamp(v); return t * t * (3 - 2 * t); };
 
 function Birds() {
   const birds = useMemo(
@@ -62,8 +70,8 @@ function Birds() {
   return (
     <div className="absolute inset-0 bg-gradient-to-b from-sky to-ink">
       {birds.map(([x, y, s], i) => (
-        <svg key={i} className="bird absolute" style={{ left: `${x}%`, top: `${y}%`, width: 46 * s, animationDelay: `${i * -0.6}s` }} viewBox="0 0 40 20">
-          <path d="M0 8 Q10 0 20 10 Q30 0 40 8 Q30 6 20 16 Q10 6 0 8Z" fill="var(--night)" style={{ animationDelay: `${i * -0.13}s` }} />
+        <svg key={i} className="bird absolute" style={{ left: `${x}%`, top: `${y}%`, width: 18 * s, animationDuration: `${19 + i * 1.7}s`, animationDelay: `${i * -2.6}s` }} viewBox="0 0 40 20">
+          <path d="M0 8 Q10 0 20 10 Q30 0 40 8 Q30 6 20 16 Q10 6 0 8Z" fill="var(--night)" style={{ animationDuration: `${0.9 + i * 0.06}s`, animationDelay: `${i * -0.13}s` }} />
         </svg>
       ))}
     </div>
@@ -81,7 +89,7 @@ function Stars() {
   return (
     <div className="absolute inset-0 bg-night">
       {stars.map((st, i) => (
-        <span key={i} className="star absolute rounded-full bg-foreground" style={{ left: `${st.x}%`, top: `${st.y}%`, width: st.s, height: st.s, animationDelay: `${st.d}s` }} />
+        <span key={i} className="star absolute rounded-full bg-foreground" style={{ left: `${st.x}%`, top: `${st.y}%`, width: st.s, height: st.s, animationDuration: `${6 + st.d * 3}s`, animationDelay: `${st.d}s` }} />
       ))}
     </div>
   );
@@ -89,24 +97,7 @@ function Stars() {
 
 function Index() {
   const ref = useRef<HTMLDivElement>(null);
-  const [p, setP] = useState(0); // continuous scene index
-
-  useEffect(() => {
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const el = ref.current;
-        if (!el) return;
-        const max = el.offsetHeight - window.innerHeight;
-        setP(clamp(window.scrollY / max) * (scenes.length - 1));
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
+  const p = useStoryProgress(ref, scenes.length);
 
   const [panel, setPanel] = useState<null | "menu" | "contact">(null);
   const [lang, setLang] = useState<"en" | "es">("en");
@@ -137,6 +128,7 @@ function Index() {
   });
 
   const progress = p / (scenes.length - 1);
+  const activeScene = scenes[Math.round(p)];
 
   return (
     <>
@@ -144,24 +136,24 @@ function Index() {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {scenes.map((sc, i) => {
           const d = p - i; // <0 upcoming, >0 passed
-          const op = clamp(1 - Math.abs(d) * 1.4);
-          if (op <= 0) return null;
-          const scale = 1.08 - clamp(d + 1, 0, 2) * 0.04;
-          const textOp = clamp(1 - Math.abs(d) * 2.6);
-          const ty = d * -60;
+          if (i < Math.floor(p) || i > Math.floor(p) + 1) return null;
+          const op = i <= p ? 1 : ease(1 + d);
+          const textOp = 1 - ease((Math.abs(d) - 0.15) / 0.65);
+          const ty = d * -20;
           return (
-            <div key={i} className="absolute inset-0" style={{ opacity: op, zIndex: i }}>
-              <div className="absolute inset-0 will-change-transform" style={{ transform: `scale(${scale})` }}>
-                {sc.bg === "img" && <img src={sc.src} alt="" width={1920} height={1088} className="h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} />}
+            <div key={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""}`} style={{ opacity: op, zIndex: i }}>
+              <div className="absolute inset-0">
+                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "birds" && <Birds />}
-                {sc.bg === "stars" && <Stars />}
-                {sc.bg === "vision" && <div className="absolute inset-0 bg-gradient-to-b from-sky to-ink" />}
+                {(sc.bg === "stars" || sc.bg === "sunset") && <div className="absolute inset-0 -z-10"><Stars /></div>}
+                {sc.bg === "vision" && <div className="absolute inset-0 bg-ink" />}
+                {sc.mist && <div className="scene-mist absolute inset-0" />}
               </div>
               <div
-                className="text-cine absolute inset-x-0 top-[17vh] mx-auto flex max-w-xl flex-col items-center px-6 text-center"
-                style={{ opacity: textOp, transform: `translateY(${ty}px)`, filter: `blur(${Math.abs(d) * 6}px)` }}
+                className={`story-copy text-cine absolute inset-x-0 mx-auto flex max-w-xl flex-col items-center px-6 text-center ${sc.center ? "story-copy-center" : "story-copy-upper"}`}
+                style={{ opacity: textOp, transform: `translateY(${ty}px)` }}
               >
-                <h2 className="text-[clamp(1.6rem,2.6vw,2.4rem)] font-normal leading-[1.15] tracking-tight">{sc.title}</h2>
+                <h2 className="story-heading font-normal leading-[1.15]">{sc.title}</h2>
                 {sc.body && <p className="mt-4 max-w-sm text-[13px] leading-relaxed text-muted-foreground">{sc.body}</p>}
               </div>
             </div>
@@ -169,7 +161,7 @@ function Index() {
         })}
 
         {/* Header */}
-        <header className="text-cine absolute inset-x-0 top-0 z-50 flex items-center justify-center px-6 py-6">
+        <header className={`story-header text-cine absolute inset-x-0 top-0 z-50 flex items-center justify-center px-6 py-6 ${activeScene?.tone === "dark" ? "story-scene-dark" : ""}`}>
           <a href="#" className="flex items-center gap-1.5" aria-label="iCapital home">
             <span className="text-[26px] font-medium tracking-tight"><span className="text-accent">i</span>Capital</span>
             <span className="text-[6.5px] uppercase leading-[1.25] tracking-wider text-muted-foreground">Wealth<br />Management<br />Advisors</span>
@@ -192,7 +184,7 @@ function Index() {
           <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
           {panel === "menu" && (
             <nav className="flex h-full flex-col items-center justify-center gap-6 text-center">
-              {[["The journey", 0], ["Perspective", 1], ["Our compass", 2], ["Legacy", 6], ["Our side", 7], ["Vision", 8]].map(([l, i]) => (
+              {[["The journey", 0], ["Perspective", 1], ["Our compass", 3], ["Legacy", 4], ["Our side", 11], ["Vision", 8]].map(([l, i]) => (
                 <button key={l as string} onClick={() => jump(i as number)} className="text-[clamp(1.6rem,3vw,2.6rem)] font-light tracking-tight transition hover:text-accent">
                   {l}
                 </button>
@@ -231,7 +223,7 @@ function Index() {
         {/* Bottom cue */}
         <div className="absolute inset-x-0 bottom-6 z-50 flex justify-center">
           {p < 0.3 ? (
-            <button onClick={() => go(1)} className="text-cine bob text-[11px] tracking-wide text-muted-foreground">Discover more</button>
+            <button onClick={() => go(1)} className="text-cine text-[11px] text-muted-foreground">Discover more</button>
           ) : (
             <button onClick={() => go(1)} aria-label="Next scene" className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted backdrop-blur-sm">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M2 3.5 L5 6.5 L8 3.5" /></svg>

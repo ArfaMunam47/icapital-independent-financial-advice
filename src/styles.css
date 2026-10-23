@@ -36,6 +36,9 @@
   --ink: oklch(0.28 0.05 255);
   --night: oklch(0.17 0.05 265);
   --sky: oklch(0.55 0.13 260);
+  --journey-sky: oklch(0.34 0.085 245);
+  --daylight-ink: oklch(0.3 0.035 250);
+  --mist: oklch(0.99 0.01 230 / 0.86);
   --text-shadow-soft: 0 1px 18px oklch(0.2 0.05 255 / 0.35);
 }
 
@@ -71,7 +74,7 @@
 }
 @keyframes twinkle {
   0%, 100% { opacity: 0.9; }
-  50% { opacity: 0.25; }
+  50% { opacity: 0.55; }
 }
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
@@ -81,6 +84,33 @@
 .bird path { transform-origin: center; animation: flap 0.9s ease-in-out infinite; }
 .star { animation: twinkle 3s ease-in-out infinite; }
 .bob { animation: bob 2.4s ease-in-out infinite; }
+
+.opening-landscape { background: var(--journey-sky); }
+.mountain-back { position: absolute; bottom: 0; width: 100%; height: 49%; object-fit: cover; object-position: top; }
+.mountain-front { position: absolute; bottom: -3%; left: -3%; width: 106%; height: 23%; object-fit: cover; object-position: top; }
+.cloud-bank { position: absolute; width: 120%; left: -10%; pointer-events: none; object-fit: fill; }
+.cloud-bank-far { bottom: 0; height: 40%; opacity: 0.72; animation: cloud-flow 42s ease-in-out infinite alternate; }
+.cloud-bank-near { bottom: -18%; height: 34%; opacity: 0.5; animation: cloud-flow 29s ease-in-out -9s infinite alternate-reverse; }
+@keyframes cloud-flow { from { transform: translateX(-3%); } to { transform: translateX(4%); } }
+.sunset-foreground { position: absolute; bottom: 0; width: 100%; height: 100%; object-fit: cover; object-position: bottom; z-index: 1; }
+.story-heading { font-size: 30px; letter-spacing: 0; }
+.story-copy-upper { top: 22%; }
+.story-copy-center { top: 43%; }
+.story-scene-dark { color: var(--daylight-ink); --foreground: var(--daylight-ink); --muted-foreground: var(--daylight-ink); }
+.scene-mist { background: var(--mist); }
+.story-header { transition: color 0.5s ease; }
+@media (max-width: 640px) {
+  .story-heading { font-size: 25px; }
+  .mountain-back { width: 160%; max-width: none; left: -30%; height: 45%; }
+  .mountain-front { width: 180%; max-width: none; left: -40%; height: 25%; }
+  .story-header { justify-content: flex-start; padding-left: 18px; }
+  .story-header > a > span:first-child { font-size: 22px; }
+  .story-header > a > span:last-child { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cloud-bank, .bird, .bird path, .star, .bob { animation: none; }
+}
 
 /* Reveal the story even when preview hydration is delayed or interrupted. */
 @keyframes reveal-story {
