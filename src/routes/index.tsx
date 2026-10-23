@@ -111,8 +111,6 @@ function Index() {
   const [panel, setPanel] = useState<null | "menu" | "contact">(null);
   const [lang, setLang] = useState<"en" | "es">("en");
   const [sent, setSent] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setLoaded(true), 900); return () => clearTimeout(t); }, []);
   const jump = (i: number) => {
     const el = ref.current;
     if (!el) return;
@@ -185,7 +183,7 @@ function Index() {
         </header>
 
         {/* Intro loader */}
-        <div className={`pointer-events-none fixed inset-0 z-[70] flex items-center justify-center bg-foreground transition-opacity duration-1000 ${loaded ? "opacity-0" : "opacity-100"}`}>
+        <div aria-hidden="true" className="intro-loader pointer-events-none fixed inset-0 z-[70] flex items-center justify-center bg-foreground">
           <span className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
         </div>
 
