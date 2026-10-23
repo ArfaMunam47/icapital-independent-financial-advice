@@ -81,3 +81,13 @@
 .bird path { transform-origin: center; animation: flap 0.9s ease-in-out infinite; }
 .star { animation: twinkle 3s ease-in-out infinite; }
 .bob { animation: bob 2.4s ease-in-out infinite; }
+
+/* Reveal the story even when preview hydration is delayed or interrupted. */
+@keyframes reveal-story {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+.intro-loader { animation: reveal-story 1s ease 0.9s forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .intro-loader { animation: none; opacity: 0; visibility: hidden; }
+}

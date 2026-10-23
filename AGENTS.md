@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- The intro overlay must dismiss through CSS independently of React hydration so a delayed preview cannot hide the story indefinitely.
