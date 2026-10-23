@@ -140,6 +140,7 @@ function Index() {
   const progress = p / (scenes.length - 1);
 
   return (
+    <>
     <div ref={ref} style={{ height: `${scenes.length * 120}vh` }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {scenes.map((sc, i) => {
