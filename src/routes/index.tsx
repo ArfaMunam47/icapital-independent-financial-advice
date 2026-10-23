@@ -2,16 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useStoryProgress } from "@/hooks/use-story-progress";
 import { StoryLandscape } from "@/components/story-landscape";
-import ridge from "@/assets/reference-scene_02_2segs_HD.mp4.asset.json";
-import alpine from "@/assets/reference-scene_03_2segs_HD.mp4.asset.json";
-import trail from "@/assets/reference-scene_04_3segs_HD.mp4.asset.json";
-import arch from "@/assets/reference-scene_05_2segs_HD.mp4.asset.json";
-import beach from "@/assets/reference-scene_06_2segs_HD.mp4.asset.json";
-import ridgePoster from "@/assets/reference-scene_02_2segs_HD.mp4.jpg.asset.json";
-import alpinePoster from "@/assets/reference-scene_03_2segs_HD.mp4.jpg.asset.json";
-import trailPoster from "@/assets/reference-scene_04_3segs_HD.mp4.jpg.asset.json";
-import archPoster from "@/assets/reference-scene_05_2segs_HD.mp4.jpg.asset.json";
-import beachPoster from "@/assets/reference-scene_06_2segs_HD.mp4.jpg.asset.json";
+import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
+import alpine from "@/assets/reference-scene_03_2segs_HD.webm.asset.json";
+import trail from "@/assets/reference-scene_04_3segs_HD.webm.asset.json";
+import arch from "@/assets/reference-scene_05_2segs_HD.webm.asset.json";
+import beach from "@/assets/reference-scene_06_2segs_HD.webm.asset.json";
+import ridgePoster from "@/assets/reference-scene_02_2segs_HD-poster.jpg.asset.json";
+import alpinePoster from "@/assets/reference-scene_03_2segs_HD-poster.jpg.asset.json";
+import trailPoster from "@/assets/reference-scene_04_3segs_HD-poster.jpg.asset.json";
+import archPoster from "@/assets/reference-scene_05_2segs_HD-poster.jpg.asset.json";
+import beachPoster from "@/assets/reference-scene_06_2segs_HD-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
