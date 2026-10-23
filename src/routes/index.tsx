@@ -163,12 +163,49 @@ function Index() {
             <span className="text-[6.5px] uppercase leading-[1.25] tracking-wider text-muted-foreground">Wealth<br />Management<br />Advisors</span>
           </a>
           <div className="absolute right-6 flex items-center gap-4 text-[11px] md:right-10">
-            <a href="mailto:hello@example.com" className="rounded-full border border-border bg-muted px-4 py-1.5 backdrop-blur-sm transition hover:bg-foreground hover:text-primary-foreground">Contact</a>
-            <span className="hidden opacity-70 sm:inline">ES</span>
-            <span className="hidden font-semibold sm:inline">EN</span>
-            <button aria-label="Menu" className="flex flex-col gap-[3px]"><span className="block h-px w-4 bg-foreground" /><span className="block h-px w-4 bg-foreground" /><span className="block h-px w-4 bg-foreground" /></button>
+            <button onClick={() => setPanel("contact")} className="rounded-full border border-border bg-muted px-4 py-1.5 backdrop-blur-sm transition hover:bg-foreground hover:text-primary-foreground">Contact</button>
+            <button onClick={() => setLang("es")} className={`hidden sm:inline ${lang === "es" ? "font-semibold" : "opacity-70"}`}>ES</button>
+            <button onClick={() => setLang("en")} className={`hidden sm:inline ${lang === "en" ? "font-semibold" : "opacity-70"}`}>EN</button>
+            <button onClick={() => setPanel("menu")} aria-label="Menu" className="flex flex-col gap-[3px]"><span className="block h-px w-4 bg-foreground" /><span className="block h-px w-4 bg-foreground" /><span className="block h-px w-4 bg-foreground" /></button>
           </div>
         </header>
+
+        {/* Intro loader */}
+        <div className={`pointer-events-none absolute inset-0 z-[70] flex items-center justify-center bg-foreground transition-opacity duration-1000 ${loaded ? "opacity-0" : "opacity-100"}`}>
+          <span className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+        </div>
+
+        {/* Overlays */}
+        <div className={`absolute inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+          <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
+          {panel === "menu" && (
+            <nav className="flex h-full flex-col items-center justify-center gap-6 text-center">
+              {[["The journey", 0], ["Perspective", 1], ["Our compass", 2], ["Legacy", 6], ["Our side", 7], ["Vision", 8]].map(([l, i]) => (
+                <button key={l as string} onClick={() => jump(i as number)} className="text-[clamp(1.6rem,3vw,2.6rem)] font-light tracking-tight transition hover:text-accent">
+                  {l}
+                </button>
+              ))}
+              <button onClick={() => setPanel("contact")} className="mt-6 accent-word text-xl">Talk to us</button>
+            </nav>
+          )}
+          {panel === "contact" && (
+            <div className="flex h-full items-center justify-center px-6">
+              {sent ? (
+                <p className="text-center text-2xl font-light">Thank you. We'll be <A>by your side</A> shortly.</p>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="w-full max-w-md space-y-5 text-center">
+                  <h3 className="text-3xl font-light">Let's begin the <A>journey</A></h3>
+                  <p className="text-[13px] text-muted-foreground">Tell us a little about yourself and an advisor will reach out.</p>
+                  {["Name", "Email", "Phone"].map((f) => (
+                    <input key={f} required={f !== "Phone"} type={f === "Email" ? "email" : "text"} placeholder={f} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
+                  ))}
+                  <textarea placeholder="How can we help?" rows={3} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
+                  <button className="rounded-full bg-foreground px-8 py-2.5 text-[12px] text-primary-foreground transition hover:bg-accent">Send</button>
+                </form>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Right progress rail */}
         <div className="absolute right-6 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-2 md:right-10 md:flex" style={{ opacity: clamp(p * 3) }}>
