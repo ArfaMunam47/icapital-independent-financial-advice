@@ -6,8 +6,8 @@ import sunset from "@/assets/reference-scene-07.webp.asset.json";
 
 export function StoryLandscape({ kind, src, poster, progress }: {
   kind: "opening" | "video" | "sunset";
-  src?: string;
-  poster?: string;
+  src?: string | undefined;
+  poster?: string | undefined;
   progress: number;
 }) {
   const video = useRef<HTMLVideoElement>(null);
