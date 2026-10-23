@@ -240,5 +240,16 @@ function Index() {
         </div>
       </div>
     </div>
+    <footer className="relative bg-night px-6 py-24 text-center">
+      <h3 className="text-[clamp(1.8rem,3vw,2.6rem)] font-light tracking-tight">Every great journey <A>begins</A> with a conversation</h3>
+      <button onClick={() => setPanel("contact")} className="mt-8 rounded-full border border-border bg-muted px-8 py-2.5 text-[12px] transition hover:bg-foreground hover:text-primary-foreground">Contact us</button>
+      <div className="mx-auto mt-20 grid max-w-4xl gap-10 text-[12px] text-muted-foreground sm:grid-cols-3">
+        <div><p className="mb-2 text-foreground">Madrid</p>Paseo de la Castellana 00<br />28046 Madrid</div>
+        <div><p className="mb-2 text-foreground">Contact</p>hello@icapital.example<br />+34 900 000 000</div>
+        <div><p className="mb-2 text-foreground">Independent</p>Wealth management advisors<br />since 2006</div>
+      </div>
+      <p className="mt-16 text-[10px] tracking-wider text-muted-foreground">© 2026 iCapital · Legal notice · Privacy · Cookies</p>
+    </footer>
+    </>
   );
 }
