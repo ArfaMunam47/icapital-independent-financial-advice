@@ -130,6 +130,7 @@ function Index() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (panel) return;
       if (["ArrowDown", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(1); }
       if (["ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); go(-1); }
     };
@@ -184,12 +185,12 @@ function Index() {
         </header>
 
         {/* Intro loader */}
-        <div className={`pointer-events-none absolute inset-0 z-[70] flex items-center justify-center bg-foreground transition-opacity duration-1000 ${loaded ? "opacity-0" : "opacity-100"}`}>
+        <div className={`pointer-events-none fixed inset-0 z-[70] flex items-center justify-center bg-foreground transition-opacity duration-1000 ${loaded ? "opacity-0" : "opacity-100"}`}>
           <span className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
         </div>
 
         {/* Overlays */}
-        <div className={`absolute inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+        <div className={`fixed inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
           <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
           {panel === "menu" && (
             <nav className="flex h-full flex-col items-center justify-center gap-6 text-center">
