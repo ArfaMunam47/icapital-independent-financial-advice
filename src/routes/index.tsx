@@ -108,6 +108,18 @@ function Index() {
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
 
+  const [panel, setPanel] = useState<null | "menu" | "contact">(null);
+  const [lang, setLang] = useState<"en" | "es">("en");
+  const [sent, setSent] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setLoaded(true), 900); return () => clearTimeout(t); }, []);
+  const jump = (i: number) => {
+    const el = ref.current;
+    if (!el) return;
+    setPanel(null);
+    window.scrollTo({ top: (i / (scenes.length - 1)) * (el.offsetHeight - window.innerHeight), behavior: "smooth" });
+  };
+
   const go = (dir: number) => {
     const el = ref.current;
     if (!el) return;
