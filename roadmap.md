@@ -1,4 +1,4 @@
-# Cinematic creative refinement
-- [x] Redesign Vision matters through We take your side without dotted effects.
-- [x] Improve story text visibility and replace the conventional footer.
-- [x] Verify the redesigned sequence and ending on desktop and mobile.
+# Living cinematic refinement
+- [ ] Replace rejected sun and canyon imagery with continuously moving creative chapters.
+- [ ] Simplify the ending into a restrained premium closing.
+- [ ] Verify movement, readability and closing interactions.
