@@ -11,3 +11,4 @@
 
 - The intro overlay must dismiss through CSS independently of React hydration so a delayed preview cannot hide the story indefinitely.
 - Keep the scroll playhead in useStoryProgress and layered/video media in StoryLandscape; native scrolling remains user-controlled while scene changes and video frames follow one eased playhead.
+- Creative chapters use the existing scene playhead and StoryLandscape media variants rather than separate scrolling systems, keeping navigation and transitions consistent.

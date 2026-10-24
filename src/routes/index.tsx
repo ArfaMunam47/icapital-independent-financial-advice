@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useStoryProgress } from "@/hooks/use-story-progress";
 import { StoryLandscape } from "@/components/story-landscape";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight, RotateCcw } from "lucide-react";
+import passageImage from "@/assets/vision-passage.jpg";
 import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
 import alpine from "@/assets/reference-scene_03_2segs_HD.webm.asset.json";
 import trail from "@/assets/reference-scene_04_3segs_HD.webm.asset.json";
@@ -29,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 const A = ({ children }: { children: ReactNode }) => <em className="accent-word">{children}</em>;
 
-type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "stars" | "vision"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean };
+type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "eclipse" | "passage"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
 
 const scenes: Scene[] = [
   {
@@ -48,10 +51,10 @@ const scenes: Scene[] = [
   { bg: "video", src: trail.url, poster: trailPoster.url, mist: true, tone: "dark", title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
   { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
-  { bg: "vision", center: true, title: <>Vision matters<br />when it becomes<br />a <A>decision</A></> },
-  { bg: "stars", center: true, title: <>We turn<br />complexity into judgement,<br />context into clarity<br />and vision into decisions</> },
-  { bg: "stars", center: true, title: <>Never hurry the <A>journey</A></> },
-  { bg: "sunset", center: true, title: <>We take<br />your side</> },
+  { bg: "eclipse", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
+  { bg: "passage", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
+  { bg: "eclipse", creative: "journey", title: <>Never hurry<br />the <A>journey.</A></> },
+  { bg: "sunset", creative: "side", title: <>We take<br />your <A>side.</A></> },
   { bg: "video", src: arch.url, poster: archPoster.url, title: <>Every journey<br />opens a new <A>perspective</A></> },
   { bg: "vision", center: true, title: <>Our <A>compass:</A></>, body: <>Your life goals, with independence, long-term vision and aligned interests</> },
 ];
@@ -73,23 +76,6 @@ function Birds() {
         <svg key={i} className="bird absolute" style={{ left: `${x}%`, top: `${y}%`, width: 18 * s, animationDuration: `${19 + i * 1.7}s`, animationDelay: `${i * -2.6}s` }} viewBox="0 0 40 20">
           <path d="M0 8 Q10 0 20 10 Q30 0 40 8 Q30 6 20 16 Q10 6 0 8Z" fill="var(--night)" style={{ animationDuration: `${0.9 + i * 0.06}s`, animationDelay: `${i * -0.13}s` }} />
         </svg>
-      ))}
-    </div>
-  );
-}
-
-function Stars() {
-  const stars = useMemo(
-    () => Array.from({ length: 220 }, (_, i) => {
-      const r = (n: number) => ((Math.sin(i * 9301 + n * 49297) + 1) / 2);
-      return { x: r(1) * 100, y: r(2) * 100, s: r(3) * 1.8 + 0.4, d: r(4) * 3 };
-    }),
-    [],
-  );
-  return (
-    <div className="absolute inset-0 bg-night">
-      {stars.map((st, i) => (
-        <span key={i} className="star absolute rounded-full bg-foreground" style={{ left: `${st.x}%`, top: `${st.y}%`, width: st.s, height: st.s, animationDuration: `${6 + st.d * 3}s`, animationDelay: `${st.d}s` }} />
       ))}
     </div>
   );
@@ -141,20 +127,21 @@ function Index() {
           const textOp = 1 - ease((Math.abs(d) - 0.15) / 0.65);
           const ty = d * -20;
           return (
-            <div key={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""}`} style={{ opacity: op, zIndex: i }}>
+            <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
               <div className="absolute inset-0">
-                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
+                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "eclipse" || sc.bg === "passage") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "birds" && <Birds />}
-                {(sc.bg === "stars" || sc.bg === "sunset") && <div className="absolute inset-0 -z-10"><Stars /></div>}
                 {sc.bg === "vision" && <div className="absolute inset-0 bg-ink" />}
                 {sc.mist && <div className="scene-mist absolute inset-0" />}
+                {sc.bg === "video" && !sc.mist && <div className="video-copy-shade absolute inset-0" />}
               </div>
               <div
-                className={`story-copy text-cine absolute inset-x-0 mx-auto flex max-w-xl flex-col items-center px-6 text-center ${sc.center ? "story-copy-center" : "story-copy-upper"}`}
+                className={sc.creative ? `story-copy creative-copy creative-copy-${sc.creative} absolute` : `story-copy text-cine absolute inset-x-0 mx-auto flex max-w-xl flex-col items-center px-6 text-center ${sc.center ? "story-copy-center" : "story-copy-upper"}`}
                 style={{ opacity: textOp, transform: `translateY(${ty}px)` }}
               >
+                {sc.creative && <span className="creative-chapter">{String(i - 7).padStart(2, "0")} / {sc.creative === "vision" ? "A different perspective" : sc.creative === "clarity" ? "The art of clarity" : sc.creative === "journey" ? "In your own time" : "Always alongside you"}</span>}
                 <h2 className="story-heading font-normal leading-[1.15]">{sc.title}</h2>
-                {sc.body && <p className="mt-4 max-w-sm text-[13px] leading-relaxed text-muted-foreground">{sc.body}</p>}
+                {sc.body && <p className="story-body mt-4 max-w-sm text-[14px] leading-relaxed text-muted-foreground">{sc.body}</p>}
               </div>
             </div>
           );
@@ -232,15 +219,18 @@ function Index() {
         </div>
       </div>
     </div>
-    <footer className="relative bg-night px-6 py-24 text-center">
-      <h3 className="text-[clamp(1.8rem,3vw,2.6rem)] font-light tracking-tight">Every great journey <A>begins</A> with a conversation</h3>
-      <button onClick={() => setPanel("contact")} className="mt-8 rounded-full border border-border bg-muted px-8 py-2.5 text-[12px] transition hover:bg-foreground hover:text-primary-foreground">Contact us</button>
-      <div className="mx-auto mt-20 grid max-w-4xl gap-10 text-[12px] text-muted-foreground sm:grid-cols-3">
-        <div><p className="mb-2 text-foreground">Madrid</p>Paseo de la Castellana 00<br />28046 Madrid</div>
-        <div><p className="mb-2 text-foreground">Contact</p>hello@icapital.example<br />+34 900 000 000</div>
-        <div><p className="mb-2 text-foreground">Independent</p>Wealth management advisors<br />since 2006</div>
+    <footer className="journey-ending relative overflow-hidden">
+      <img src={passageImage} alt="Sunlight opening a path through a monumental canyon" loading="lazy" width={1536} height={1024} className="ending-image absolute inset-0 h-full w-full object-cover" />
+      <div className="ending-shade absolute inset-0" />
+      <div className="ending-content relative">
+        <span className="creative-chapter">The next chapter is yours</span>
+        <h2>Every great journey<br /><A>begins</A> with<br />a conversation.</h2>
+        <Button variant="ghost" onClick={() => setPanel("contact")} className="ending-cta">Let’s begin <ArrowUpRight aria-hidden="true" /></Button>
       </div>
-      <p className="mt-16 text-[10px] tracking-wider text-muted-foreground">© 2026 iCapital · Legal notice · Privacy · Cookies</p>
+      <div className="ending-signature relative">
+        <span className="ending-wordmark"><span>i</span>Capital</span>
+        <div className="ending-meta"><span>© 2026 iCapital</span><Button variant="ghost" onClick={() => jump(0)} className="ending-replay"><RotateCcw aria-hidden="true" /> Back to the beginning</Button></div>
+      </div>
     </footer>
     </>
   );
