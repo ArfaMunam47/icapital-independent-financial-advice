@@ -118,6 +118,38 @@ function Index() {
 
   return (
     <>
+        {/* Overlays */}
+        <div className={`fixed inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+          <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
+          {panel === "menu" && (
+            <nav className="flex h-full flex-col items-center justify-center gap-6 text-center">
+              {[["The journey", 0], ["Perspective", 1], ["Our compass", 3], ["Legacy", 4], ["Our side", 11], ["Vision", 8]].map(([l, i]) => (
+                <button key={l as string} onClick={() => jump(i as number)} className="text-[clamp(1.6rem,3vw,2.6rem)] font-light tracking-tight transition hover:text-accent">
+                  {l}
+                </button>
+              ))}
+              <button onClick={() => setPanel("contact")} className="mt-6 accent-word text-xl">Talk to us</button>
+            </nav>
+          )}
+          {panel === "contact" && (
+            <div className="flex h-full items-center justify-center px-6">
+              {sent ? (
+                <p className="text-center text-2xl font-light">Thank you. We'll be <A>by your side</A> shortly.</p>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="w-full max-w-md space-y-5 text-center">
+                  <h3 className="text-3xl font-light">Let's begin the <A>journey</A></h3>
+                  <p className="text-[13px] text-muted-foreground">Tell us a little about yourself and an advisor will reach out.</p>
+                  {["Name", "Email", "Phone"].map((f) => (
+                    <input key={f} required={f !== "Phone"} type={f === "Email" ? "email" : "text"} placeholder={f} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
+                  ))}
+                  <textarea placeholder="How can we help?" rows={3} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
+                  <button className="rounded-full bg-foreground px-8 py-2.5 text-[12px] text-primary-foreground transition hover:bg-accent">Send</button>
+                </form>
+              )}
+            </div>
+          )}
+        </div>
+
     <div ref={ref} style={{ height: `${scenes.length * 120}vh` }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {scenes.map((sc, i) => {
@@ -164,38 +196,6 @@ function Index() {
         {/* Intro loader */}
         <div aria-hidden="true" className="intro-loader pointer-events-none fixed inset-0 z-[70] flex items-center justify-center bg-foreground">
           <span className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-        </div>
-
-        {/* Overlays */}
-        <div className={`fixed inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-          <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
-          {panel === "menu" && (
-            <nav className="flex h-full flex-col items-center justify-center gap-6 text-center">
-              {[["The journey", 0], ["Perspective", 1], ["Our compass", 3], ["Legacy", 4], ["Our side", 11], ["Vision", 8]].map(([l, i]) => (
-                <button key={l as string} onClick={() => jump(i as number)} className="text-[clamp(1.6rem,3vw,2.6rem)] font-light tracking-tight transition hover:text-accent">
-                  {l}
-                </button>
-              ))}
-              <button onClick={() => setPanel("contact")} className="mt-6 accent-word text-xl">Talk to us</button>
-            </nav>
-          )}
-          {panel === "contact" && (
-            <div className="flex h-full items-center justify-center px-6">
-              {sent ? (
-                <p className="text-center text-2xl font-light">Thank you. We'll be <A>by your side</A> shortly.</p>
-              ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="w-full max-w-md space-y-5 text-center">
-                  <h3 className="text-3xl font-light">Let's begin the <A>journey</A></h3>
-                  <p className="text-[13px] text-muted-foreground">Tell us a little about yourself and an advisor will reach out.</p>
-                  {["Name", "Email", "Phone"].map((f) => (
-                    <input key={f} required={f !== "Phone"} type={f === "Email" ? "email" : "text"} placeholder={f} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
-                  ))}
-                  <textarea placeholder="How can we help?" rows={3} className="w-full border-b border-border bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-accent" />
-                  <button className="rounded-full bg-foreground px-8 py-2.5 text-[12px] text-primary-foreground transition hover:bg-accent">Send</button>
-                </form>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Right progress rail */}
