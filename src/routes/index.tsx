@@ -4,7 +4,6 @@ import { useStoryProgress } from "@/hooks/use-story-progress";
 import { StoryLandscape } from "@/components/story-landscape";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, RotateCcw } from "lucide-react";
-import passageImage from "@/assets/vision-passage.jpg";
 import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
 import alpine from "@/assets/reference-scene_03_2segs_HD.webm.asset.json";
 import trail from "@/assets/reference-scene_04_3segs_HD.webm.asset.json";
@@ -32,7 +31,7 @@ export const Route = createFileRoute("/")({
 
 const A = ({ children }: { children: ReactNode }) => <em className="accent-word">{children}</em>;
 
-type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "eclipse" | "passage"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
+type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "silk" | "current" | "living-video"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
 
 const scenes: Scene[] = [
   {
@@ -51,10 +50,10 @@ const scenes: Scene[] = [
   { bg: "video", src: trail.url, poster: trailPoster.url, mist: true, tone: "dark", title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
   { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
-  { bg: "eclipse", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
-  { bg: "passage", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
-  { bg: "eclipse", creative: "journey", title: <>Never hurry<br />the <A>journey.</A></> },
-  { bg: "sunset", creative: "side", title: <>We take<br />your <A>side.</A></> },
+  { bg: "silk", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
+  { bg: "current", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
+  { bg: "living-video", src: beach.url, poster: beachPoster.url, creative: "journey", title: <>Never hurry<br />the <A>journey.</A></> },
+  { bg: "living-video", src: ridge.url, poster: ridgePoster.url, creative: "side", title: <>We take<br />your <A>side.</A></> },
   { bg: "video", src: arch.url, poster: archPoster.url, title: <>Every journey<br />opens a new <A>perspective</A></> },
   { bg: "vision", center: true, title: <>Our <A>compass:</A></>, body: <>Your life goals, with independence, long-term vision and aligned interests</> },
 ];
@@ -161,7 +160,7 @@ function Index() {
           return (
             <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
               <div className="absolute inset-0">
-                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "eclipse" || sc.bg === "passage") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
+                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "silk" || sc.bg === "current" || sc.bg === "living-video") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "birds" && <Birds />}
                 {sc.bg === "vision" && <div className="absolute inset-0 bg-ink" />}
                 {sc.mist && <div className="scene-mist absolute inset-0" />}
@@ -171,7 +170,6 @@ function Index() {
                 className={sc.creative ? `story-copy creative-copy creative-copy-${sc.creative} absolute` : `story-copy text-cine absolute inset-x-0 mx-auto flex max-w-xl flex-col items-center px-6 text-center ${sc.center ? "story-copy-center" : "story-copy-upper"}`}
                 style={{ opacity: textOp, transform: `translateY(${ty}px)` }}
               >
-                {sc.creative && <span className="creative-chapter">{String(i - 7).padStart(2, "0")} / {sc.creative === "vision" ? "A different perspective" : sc.creative === "clarity" ? "The art of clarity" : sc.creative === "journey" ? "In your own time" : "Always alongside you"}</span>}
                 <h2 className="story-heading font-normal leading-[1.15]">{sc.title}</h2>
                 {sc.body && <p className="story-body mt-4 max-w-sm text-[14px] leading-relaxed text-muted-foreground">{sc.body}</p>}
               </div>
@@ -220,16 +218,13 @@ function Index() {
       </div>
     </div>
     <footer className="journey-ending relative overflow-hidden">
-      <img src={passageImage} alt="Sunlight opening a path through a monumental canyon" loading="lazy" width={1536} height={1024} className="ending-image absolute inset-0 h-full w-full object-cover" />
-      <div className="ending-shade absolute inset-0" />
       <div className="ending-content relative">
-        <span className="creative-chapter">The next chapter is yours</span>
-        <h2>Every great journey<br /><A>begins</A> with<br />a conversation.</h2>
-        <Button variant="ghost" onClick={() => setPanel("contact")} className="ending-cta">Let’s begin <ArrowUpRight aria-hidden="true" /></Button>
+        <h2>Your next <A>chapter.</A></h2>
+        <Button variant="ghost" onClick={() => setPanel("contact")} className="ending-cta">Let’s talk <ArrowUpRight aria-hidden="true" /></Button>
       </div>
       <div className="ending-signature relative">
         <span className="ending-wordmark"><span>i</span>Capital</span>
-        <div className="ending-meta"><span>© 2026 iCapital</span><Button variant="ghost" onClick={() => jump(0)} className="ending-replay"><RotateCcw aria-hidden="true" /> Back to the beginning</Button></div>
+        <div className="ending-meta"><span>© 2026 iCapital</span><Button variant="ghost" size="icon" title="Back to the beginning" aria-label="Back to the beginning" onClick={() => jump(0)} className="ending-replay"><RotateCcw aria-hidden="true" /></Button></div>
       </div>
     </footer>
     </>
