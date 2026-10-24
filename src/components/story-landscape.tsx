@@ -3,9 +3,11 @@ import mountain from "@/assets/reference-scene-01-back.webp.asset.json";
 import foreground from "@/assets/reference-scene-01-front.webp.asset.json";
 import clouds from "@/assets/reference-clouds.webp.asset.json";
 import sunset from "@/assets/reference-scene-07.webp.asset.json";
+import eclipse from "@/assets/vision-eclipse.jpg";
+import passage from "@/assets/vision-passage.jpg";
 
 export function StoryLandscape({ kind, src, poster, progress }: {
-  kind: "opening" | "video" | "sunset";
+  kind: "opening" | "video" | "sunset" | "eclipse" | "passage";
   src?: string | undefined;
   poster?: string | undefined;
   progress: number;
@@ -32,7 +34,13 @@ export function StoryLandscape({ kind, src, poster, progress }: {
   if (kind === "video") return (
     <video ref={video} src={src} poster={poster} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
   );
-  if (kind === "sunset") return <img src={sunset.url} alt="" className="sunset-foreground" />;
+  if (kind === "eclipse" || kind === "passage") return (
+    <div className={`creative-landscape creative-landscape-${kind} absolute inset-0 overflow-hidden`}>
+      <img src={kind === "eclipse" ? eclipse : passage} alt="" loading="lazy" width={1536} height={1024} className="creative-landscape-image" style={{ transform: `scale(${1.025 + progress * 0.035}) translateY(${progress * -1.5}%)` }} />
+      <div className="creative-landscape-shade absolute inset-0" />
+    </div>
+  );
+  if (kind === "sunset") return <><img src={sunset.url} alt="" className="sunset-foreground" /><div className="side-shade absolute inset-0" /></>;
 
   return (
     <div className="opening-landscape absolute inset-0 overflow-hidden">

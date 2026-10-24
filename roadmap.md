@@ -1,4 +1,4 @@
-# Reference motion refinement
-- [x] Match landscape composition and scene sequence to the supplied video.
-- [x] Replace dark-gap dissolves with continuous, eased scene transitions.
-- [x] Verify the journey and scene navigation on desktop and mobile.
+# Cinematic creative refinement
+- [x] Redesign Vision matters through We take your side without dotted effects.
+- [x] Improve story text visibility and replace the conventional footer.
+- [x] Verify the redesigned sequence and ending on desktop and mobile.
