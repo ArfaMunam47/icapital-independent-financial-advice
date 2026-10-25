@@ -13,3 +13,4 @@
 - Keep the scroll playhead in useStoryProgress and layered/video media in StoryLandscape; native scrolling remains user-controlled while scene changes and video frames follow one eased playhead.
 - Creative chapters use the existing scene playhead and StoryLandscape media variants rather than separate scrolling systems, keeping navigation and transitions consistent.
 - Living chapter surfaces render in a lifecycle-managed Canvas 2D module through StoryLandscape; continuous media bypasses video seeking so idle motion and native scrolling coexist.
+- Scene audio uses opt-in browser Web Audio with playhead crossfades, visibility suspension and unmount cleanup; never autoplay sound or couple it to scrubbed video tracks.
