@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useStoryProgress } from "@/hooks/use-story-progress";
+import { useStorySound } from "@/hooks/use-story-sound";
 import { StoryLandscape } from "@/components/story-landscape";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, RotateCcw } from "lucide-react";
+import { ArrowUpRight, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
 import alpine from "@/assets/reference-scene_03_2segs_HD.webm.asset.json";
 import trail from "@/assets/reference-scene_04_3segs_HD.webm.asset.json";
@@ -83,6 +84,7 @@ function Birds() {
 function Index() {
   const ref = useRef<HTMLDivElement>(null);
   const p = useStoryProgress(ref, scenes.length);
+  const sound = useStorySound(p);
 
   const [panel, setPanel] = useState<null | "menu" | "contact">(null);
   const [lang, setLang] = useState<"en" | "es">("en");
@@ -105,6 +107,7 @@ function Index() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (panel) return;
+      if (e.target instanceof HTMLElement && e.target.closest("button, input, textarea, a, select")) return;
       if (["ArrowDown", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(1); }
       if (["ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); go(-1); }
     };
@@ -117,6 +120,9 @@ function Index() {
 
   return (
     <>
+      <Button variant="ghost" size="icon" onClick={() => void sound.toggle()} aria-pressed={sound.enabled} aria-label={sound.enabled ? "Mute sound" : "Enable sound"} title={sound.unavailable ? "Sound unavailable — try again" : sound.enabled ? "Mute sound" : "Enable scene sound"} className="fixed bottom-6 left-6 z-[65] rounded-full border border-border bg-ink/80 text-foreground backdrop-blur-sm">
+        {sound.enabled ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+      </Button>
         {/* Overlays */}
         <div className={`fixed inset-0 z-[60] bg-ink/80 backdrop-blur-xl transition-all duration-700 ${panel ? "opacity-100" : "pointer-events-none opacity-0"}`}>
           <button onClick={() => setPanel(null)} aria-label="Close" className="absolute right-6 top-6 text-2xl font-light md:right-10">×</button>
