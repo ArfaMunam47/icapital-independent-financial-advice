@@ -17,6 +17,19 @@ export function StoryLandscape({ kind, src, poster, progress }: {
 
   useEffect(() => {
     const element = video.current;
+    if (!element || kind !== "living-video") return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      if (reduced.matches) element.pause();
+      else void element.play().catch(() => undefined);
+    };
+    update();
+    reduced.addEventListener("change", update);
+    return () => { element.pause(); reduced.removeEventListener("change", update); };
+  }, [kind, src]);
+
+  useEffect(() => {
+    const element = video.current;
     if (!element || kind !== "video") return;
     let frame = 0;
     const seek = () => {
@@ -34,7 +47,7 @@ export function StoryLandscape({ kind, src, poster, progress }: {
     <video ref={video} src={src} poster={poster} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
   );
   if (kind === "silk" || kind === "current") return <LivingLandscape variant={kind} progress={progress} />;
-  if (kind === "living-video") return <><video src={src} poster={poster} autoPlay loop muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /><div className="side-shade absolute inset-0" /></>;
+  if (kind === "living-video") return <><video ref={video} src={src} poster={poster} loop muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /><div className="side-shade absolute inset-0" /></>;
   if (kind === "sunset") return <><img src={sunset.url} alt="" className="sunset-foreground" /><div className="side-shade absolute inset-0" /></>;
 
   return (
