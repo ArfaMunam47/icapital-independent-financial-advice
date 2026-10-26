@@ -199,7 +199,7 @@
 .opening-scrim { background: radial-gradient(ellipse 60% 38% at 50% 28%, oklch(0.2 0.07 255 / 0.32), transparent 75%); pointer-events: none; }
 .cloud-reveal { pointer-events: none; overflow: hidden; }
 .cloud-reveal-wash { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 40% at 50% 48%, var(--mist), transparent 80%); }
-.cloud-reveal img { position: absolute; top: 10%; width: 70%; height: 80%; object-fit: cover; opacity: 0.85; transition: transform 0.2s linear; }
+.cloud-reveal img { position: absolute; top: 5%; width: 70%; height: 90%; object-fit: cover; opacity: 0.8; -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 35%, transparent 75%); mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 35%, transparent 75%); transition: transform 0.2s linear; }
 .cloud-reveal-left { left: -6%; }
 .cloud-reveal-right { right: -6%; }
 .legacy-scene .video-copy-shade { background: radial-gradient(ellipse 70% 45% at 50% 30%, var(--scrim-strong), var(--scrim-clear) 80%); }
