@@ -46,16 +46,29 @@ export function StoryLandscape({ kind, src, poster, progress }: {
   if (kind === "video") return (
     <video ref={video} src={src} poster={poster} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
   );
-  if (kind === "silk" || kind === "current") return <LivingLandscape variant={kind} progress={progress} />;
+  if (kind === "silk" || kind === "current") return <><LivingLandscape variant={kind} progress={progress} /><div className="cloud-drift cloud-drift-atmos"><img src={clouds.url} alt="" /><img src={clouds.url} alt="" /></div></>;
   if (kind === "living-video") return <><video ref={video} src={src} poster={poster} loop muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /><div className="side-shade absolute inset-0" /></>;
   if (kind === "sunset") return <><img src={sunset.url} alt="" className="sunset-foreground" /><div className="side-shade absolute inset-0" /></>;
 
   return (
     <div className="opening-landscape absolute inset-0 overflow-hidden">
       <img src={mountain.url} alt="" className="mountain-back" style={{ transform: `translateY(${progress * -24}px) scale(${1 + progress * 0.06})` }} />
+      <div className="cloud-drift cloud-drift-high"><img src={clouds.url} alt="" /><img src={clouds.url} alt="" /></div>
       <img src={clouds.url} alt="" className="cloud-bank cloud-bank-far" />
       <img src={foreground.url} alt="" className="mountain-front" style={{ transform: `translateY(${progress * 30}px) scale(${1 + progress * 0.13})` }} />
       <img src={clouds.url} alt="" className="cloud-bank cloud-bank-near" />
+      <div className="opening-scrim absolute inset-0" />
+    </div>
+  );
+}
+/** Clouds part from both sides as the playhead advances, clearing a calm field for the copy. */
+export function CloudReveal({ progress }: { progress: number }) {
+  const open = Math.min(1, Math.max(0, (progress - 0.2) / 0.35));
+  return (
+    <div className="cloud-reveal absolute inset-0" aria-hidden="true">
+      <div className="cloud-reveal-wash" style={{ opacity: 0.25 + open * 0.45 }} />
+      <img src={clouds.url} alt="" className="cloud-reveal-left" style={{ transform: `translateX(${-10 - open * 32}%)` }} />
+      <img src={clouds.url} alt="" className="cloud-reveal-right" style={{ transform: `translateX(${10 + open * 32}%) scaleX(-1)` }} />
     </div>
   );
 }

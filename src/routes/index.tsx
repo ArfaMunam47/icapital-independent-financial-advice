@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useStoryProgress } from "@/hooks/use-story-progress";
 import { useStorySound } from "@/hooks/use-story-sound";
-import { StoryLandscape } from "@/components/story-landscape";
+import { StoryLandscape, CloudReveal } from "@/components/story-landscape";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 const A = ({ children }: { children: ReactNode }) => <em className="accent-word">{children}</em>;
 
-type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "silk" | "current" | "living-video"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
+type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "paper" | "silk" | "current" | "living-video"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; cloudReveal?: boolean; legacy?: boolean; paper?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
 
 const scenes: Scene[] = [
   {
@@ -41,14 +41,14 @@ const scenes: Scene[] = [
     body: <>For 20 years we have guided your wealth with judgement and independence, because the journey matters as much as reaching the destination</>,
   },
   { bg: "video", src: ridge.url, poster: ridgePoster.url, title: <>The decisions that<br />matter most demand<br /><A>perspective</A></> },
-  { bg: "video", src: alpine.url, poster: alpinePoster.url, mist: true, tone: "dark", center: true, title: <>They do not<br />just <A>alter</A> the<br />destination</> },
+  { bg: "video", src: alpine.url, poster: alpinePoster.url, cloudReveal: true, tone: "dark", center: true, title: <>They do not<br />just <A>alter</A> the<br />destination</> },
   {
     bg: "vision", center: true,
     title: <>Our <A>compass:</A></>,
     body: <>A life lived with independence, a long-term vision and interests that are always aligned with yours</>,
   },
-  { bg: "video", src: trail.url, poster: trailPoster.url, tone: "dark", title: <>Some fortunes<br />speak<br />of <A>legacy</A></> },
-  { bg: "video", src: trail.url, poster: trailPoster.url, mist: true, tone: "dark", title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
+  { bg: "video", src: trail.url, poster: trailPoster.url, legacy: true, title: <>Some fortunes<br />speak<br />of <A>legacy</A></> },
+  { bg: "paper", paper: true, center: true, title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
   { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
   { bg: "silk", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
@@ -164,13 +164,15 @@ function Index() {
           const textOp = 1 - ease((Math.abs(d) - 0.15) / 0.65);
           const ty = d * -20;
           return (
-            <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
+            <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""} ${sc.paper ? "paper-scene" : ""} ${sc.legacy ? "legacy-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
               <div className="absolute inset-0">
                 {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "silk" || sc.bg === "current" || sc.bg === "living-video") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "birds" && <Birds />}
                 {sc.bg === "vision" && <div className="absolute inset-0 bg-ink" />}
                 {sc.mist && <div className="scene-mist absolute inset-0" />}
-                {sc.bg === "video" && !sc.mist && <div className="video-copy-shade absolute inset-0" />}
+                {sc.cloudReveal && <CloudReveal progress={clamp((d + 0.85) / 1.7)} />}
+                {sc.bg === "paper" && <div className="paper-surface absolute inset-0" />}
+                {sc.bg === "video" && !sc.mist && !sc.cloudReveal && <div className="video-copy-shade absolute inset-0" />}
               </div>
               <div
                 className={sc.creative ? `story-copy creative-copy creative-copy-${sc.creative} absolute` : `story-copy text-cine absolute inset-x-0 mx-auto flex max-w-xl flex-col items-center px-6 text-center ${sc.center ? "story-copy-center" : "story-copy-upper"}`}
@@ -184,7 +186,7 @@ function Index() {
         })}
 
         {/* Header */}
-        <header className={`story-header text-cine absolute inset-x-0 top-0 z-50 flex items-center justify-center px-6 py-6 ${activeScene?.tone === "dark" ? "story-scene-dark" : ""}`}>
+        <header className={`story-header text-cine absolute inset-x-0 top-0 z-50 flex items-center justify-center px-6 py-6 ${activeScene?.tone === "dark" || activeScene?.paper ? "story-scene-dark" : ""}`}>
           <a href="#" className="flex items-center gap-1.5" aria-label="iCapital home">
             <span className="text-[26px] font-medium tracking-tight"><span className="text-accent">i</span>Capital</span>
             <span className="text-[6.5px] uppercase leading-[1.25] tracking-wider text-muted-foreground">Wealth<br />Management<br />Advisors</span>
