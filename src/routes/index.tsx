@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 const A = ({ children }: { children: ReactNode }) => <em className="accent-word">{children}</em>;
 
-type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "paper" | "silk" | "current" | "living-video"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; cloudReveal?: boolean; legacy?: boolean; paper?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
+type Scene = { bg: "opening" | "video" | "sunset" | "birds" | "vision" | "paper" | "silk" | "current" | "living-video" | "horizon" | "clarity"; src?: string; poster?: string; title: ReactNode; body?: ReactNode; tone?: "dark"; center?: boolean; mist?: boolean; cloudReveal?: boolean; legacy?: boolean; paper?: boolean; creative?: "vision" | "clarity" | "journey" | "side" };
 
 const scenes: Scene[] = [
   {
@@ -48,11 +48,11 @@ const scenes: Scene[] = [
     body: <>A life lived with independence, a long-term vision and interests that are always aligned with yours</>,
   },
   { bg: "video", src: trail.url, poster: trailPoster.url, legacy: true, title: <>Some fortunes<br />speak<br />of <A>legacy</A></> },
-  { bg: "paper", paper: true, center: true, title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
+  { bg: "paper", src: trail.url, poster: trailPoster.url, paper: true, center: true, title: <>Whether you are a family,<br />an institution or a company</>, body: <>We are by your side to preserve, grow and project your future</> },
   { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
-  { bg: "silk", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
-  { bg: "current", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
+  { bg: "horizon", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
+  { bg: "clarity", poster: alpinePoster.url, tone: "dark", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
   { bg: "living-video", src: beach.url, poster: beachPoster.url, creative: "journey", title: <>Never hurry<br />the <A>journey.</A></> },
   { bg: "living-video", src: ridge.url, poster: ridgePoster.url, creative: "side", title: <>We take<br />your <A>side.</A></> },
   { bg: "video", src: arch.url, poster: archPoster.url, title: <>Every journey<br />opens a new <A>perspective</A></> },
@@ -164,13 +164,14 @@ function Index() {
           const textOp = 1 - ease((Math.abs(d) - 0.15) / 0.65);
           const ty = d * -20;
           return (
-            <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""} ${sc.paper ? "paper-scene" : ""} ${sc.legacy ? "legacy-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
+            <div key={i} data-scene={i} className={`story-scene absolute inset-0 ${sc.tone === "dark" ? "story-scene-dark" : ""} ${sc.creative ? "creative-scene" : ""} ${sc.paper ? "paper-scene" : ""} ${sc.legacy ? "legacy-scene" : ""} ${sc.bg === "clarity" ? "clarity-scene" : ""}`} style={{ opacity: op, zIndex: i }}>
               <div className="absolute inset-0">
-                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "silk" || sc.bg === "current" || sc.bg === "living-video") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
+                {(sc.bg === "opening" || sc.bg === "video" || sc.bg === "sunset" || sc.bg === "silk" || sc.bg === "current" || sc.bg === "living-video" || sc.bg === "horizon" || sc.bg === "clarity") && <StoryLandscape kind={sc.bg} src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "birds" && <Birds />}
                 {sc.bg === "vision" && <div className="absolute inset-0 bg-ink" />}
                 {sc.mist && <div className="scene-mist absolute inset-0" />}
                 {sc.cloudReveal && <CloudReveal progress={clamp((d + 0.85) / 1.7)} />}
+                {sc.bg === "paper" && <StoryLandscape kind="video" src={sc.src} poster={sc.poster} progress={clamp((d + 0.85) / 1.7)} />}
                 {sc.bg === "paper" && <div className="paper-surface absolute inset-0" />}
                 {sc.bg === "video" && !sc.mist && !sc.cloudReveal && <div className="video-copy-shade absolute inset-0" />}
               </div>
