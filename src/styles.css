@@ -217,20 +217,29 @@
 .creative-copy-vision { top: 24% !important; left: 8%; width: 70%; text-shadow: none !important; }
 .creative-copy-vision .story-heading { font-size: clamp(36px, 5vw, 64px) !important; }
 .creative-copy-vision .creative-bridge { font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--creative-accent); }
-/* Clarity: bright split chapter */
-.clarity-canvas { background: var(--paper); }
-.clarity-image { position: absolute; top: 0; right: 0; width: 46%; height: 100%; overflow: hidden; }
-.clarity-image img { width: 100%; height: 100%; object-fit: cover; }
-.clarity-scene { color: var(--brand-blue); --accent: var(--brand-blue); }
-.clarity-scene .creative-copy { text-shadow: none; left: 7%; width: 40%; }
-.clarity-scene .clarity-line { border-top: 1px solid oklch(0.36 0.12 258 / 0.2); padding-top: 14px; }
-.clarity-scene .clarity-line small { color: var(--brand-blue-soft); }
-.clarity-scene .story-heading { font-size: clamp(28px, 3.6vw, 46px) !important; }
-@media (max-width: 640px) {
-  .clarity-image { width: 100%; height: 34%; top: auto; bottom: 0; }
-  .clarity-scene .creative-copy { width: 86%; top: 16% !important; }
+/* Clarity: a focusing lens — a blurred, layered world with one sharp aperture opening as you scroll */
+.clarity-canvas { background: var(--night, oklch(0.18 0.05 258)); overflow: hidden; }
+.clarity-haze, .clarity-lens img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.clarity-haze { filter: blur(18px) saturate(0.6) brightness(0.55); transform: scale(1.15); }
+.clarity-veil { position: absolute; inset: 0; background: linear-gradient(100deg, oklch(0.16 0.05 258 / 0.92) 0%, oklch(0.18 0.06 258 / 0.55) 48%, oklch(0.2 0.06 258 / 0.25) 100%); }
+.clarity-lens { position: absolute; inset: 0; will-change: clip-path; transition: clip-path 0.12s linear; }
+.clarity-lens img { transition: transform 0.12s linear; }
+.clarity-focus-label { position: absolute; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: oklch(0.95 0.01 250 / 0.75); }
+.clarity-scene { color: oklch(0.97 0.01 250); --accent: oklch(0.8 0.09 245); }
+.clarity-scene .creative-copy { left: 7%; top: 50% !important; width: min(34%, 460px); transform: translateY(-50%); text-shadow: 0 2px 24px oklch(0.12 0.04 258 / 0.6); }
+.clarity-eyebrow { display: block; margin-bottom: 22px; font-family: inherit; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: oklch(0.8 0.09 245); }
+.clarity-scene .story-heading { font-size: clamp(40px, 5.2vw, 76px) !important; line-height: 1.02 !important; letter-spacing: -0.02em; }
+.clarity-scene .story-body { max-width: 380px; margin-top: 26px; color: oklch(0.9 0.015 250 / 0.85); font-size: 15px; }
+.clarity-closing { display: block; margin-top: 28px; padding-left: 14px; border-left: 1px solid oklch(0.8 0.09 245 / 0.7); font-style: italic; color: oklch(0.97 0.01 250); }
+@media (max-width: 760px) {
+  .clarity-scene .creative-copy { left: 7%; width: 86%; top: auto !important; bottom: 9%; transform: none; }
+  .clarity-veil { background: linear-gradient(180deg, oklch(0.18 0.06 258 / 0.2) 0%, oklch(0.16 0.05 258 / 0.7) 50%, oklch(0.14 0.05 258 / 0.95) 100%); }
+  .clarity-scene .story-heading { font-size: clamp(34px, 10vw, 46px) !important; }
+  .clarity-scene .story-body { font-size: 14px; margin-top: 16px; }
+  .clarity-closing { margin-top: 16px; }
   .creative-copy-vision { width: 86%; }
 }
+@media (prefers-reduced-motion: reduce) { .clarity-lens, .clarity-lens img { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .horizon-light { animation: none; left: 39%; } }
 .paper-scene { color: var(--brand-blue); --foreground: var(--brand-blue); --muted-foreground: var(--brand-blue-soft); --accent: var(--brand-blue); }
 .paper-scene .story-heading { font-size: clamp(30px, 4vw, 52px); font-weight: 300; line-height: 1.18; text-shadow: none; }
