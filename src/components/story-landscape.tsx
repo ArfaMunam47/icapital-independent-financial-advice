@@ -6,7 +6,7 @@ import sunset from "@/assets/reference-scene-07.webp.asset.json";
 import { LivingLandscape } from "@/components/living-landscape";
 
 export function StoryLandscape({ kind, src, poster, progress }: {
-  kind: "opening" | "video" | "sunset" | "silk" | "current" | "living-video";
+  kind: "opening" | "video" | "sunset" | "silk" | "current" | "living-video" | "horizon" | "clarity";
   src?: string | undefined;
   poster?: string | undefined;
   progress: number;
@@ -46,6 +46,8 @@ export function StoryLandscape({ kind, src, poster, progress }: {
   if (kind === "video") return (
     <video ref={video} src={src} poster={poster} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
   );
+  if (kind === "horizon") return <div className="horizon-canvas absolute inset-0"><div className="horizon-glow" style={{ opacity: 0.5 + progress * 0.5 }} /><div className="horizon-line"><div className="horizon-light" /></div><span className="horizon-mark" style={{ left: "8%" }}>Today</span><span className="horizon-mark" style={{ right: "8%" }}>Long term</span></div>;
+  if (kind === "clarity") return <div className="clarity-canvas absolute inset-0"><div className="clarity-image"><img src={poster} alt="" style={{ transform: `scale(${1.12 - progress * 0.08})` }} /></div></div>;
   if (kind === "silk" || kind === "current") return <><LivingLandscape variant={kind} progress={progress} /><div className="cloud-drift cloud-drift-atmos"><img src={clouds.url} alt="" /><img src={clouds.url} alt="" /></div></>;
   if (kind === "living-video") return <><video ref={video} src={src} poster={poster} loop muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /><div className="side-shade absolute inset-0" /></>;
   if (kind === "sunset") return <><img src={sunset.url} alt="" className="sunset-foreground" /><div className="side-shade absolute inset-0" /></>;

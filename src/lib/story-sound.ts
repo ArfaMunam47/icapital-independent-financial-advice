@@ -1,7 +1,7 @@
-export type Soundscape = "wind" | "forest" | "ocean" | "birds" | "silk" | "quiet";
-const scenes: Soundscape[] = ["wind", "wind", "wind", "quiet", "forest", "forest", "ocean", "birds", "silk", "silk", "ocean", "wind", "wind", "quiet"];
+export type Soundscape = "wind" | "forest" | "ocean" | "birds" | "silk" | "steps" | "quiet";
+const scenes: Soundscape[] = ["wind", "steps", "wind", "quiet", "forest", "quiet", "ocean", "birds", "silk", "quiet", "ocean", "wind", "quiet", "quiet"];
 export function soundMix(progress: number): Record<Soundscape, number> {
-  const mix = { wind: 0, forest: 0, ocean: 0, birds: 0, silk: 0, quiet: 0 };
+  const mix = { wind: 0, forest: 0, ocean: 0, birds: 0, silk: 0, steps: 0, quiet: 0 };
   const p = Math.max(0, Math.min(scenes.length - 1, progress));
   const i = Math.floor(p);
   const current = scenes[i];
@@ -48,7 +48,7 @@ export function createStorySound() {
     gains[name] = gain;
     sources.push(source, lfo);
   };
-  noise("wind", 650, 0.23, 0.085);
+  noise("wind", 520, 0.16, 0.085);
   noise("ocean", 1400, 0.28, 0.13);
   noise("forest", 2300, 0.09, 0.06);
   noise("birds", 1100, 0.08, 0.1);
@@ -86,6 +86,21 @@ export function createStorySound() {
     bird.stop(now + 0.28);
     bird.onended = () => { bird.disconnect(); gain.disconnect(); };
   }, 3300);
+  const steps = window.setInterval(() => {
+    if (!enabled || document.hidden || context.state !== "running" || mix.steps < 0.05) return;
+    const now = context.currentTime;
+    const src = context.createBufferSource();
+    src.buffer = buffer;
+    const filter = context.createBiquadFilter();
+    filter.type = "bandpass"; filter.frequency.value = 900 + Math.random() * 500; filter.Q.value = 0.8;
+    const gain = context.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.5 * mix.steps, now + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+    src.connect(filter).connect(gain).connect(master);
+    src.start(now, Math.random() * 10, 0.35);
+    src.onended = () => { src.disconnect(); filter.disconnect(); gain.disconnect(); };
+  }, 640);
   const visibility = () => {
     if (document.hidden) void context.suspend();
     else if (enabled) void context.resume().catch(() => undefined);
@@ -104,7 +119,7 @@ export function createStorySound() {
     },
     dispose() {
       disposed = true;
-      clearInterval(timer);
+      clearInterval(timer); clearInterval(steps);
       document.removeEventListener("visibilitychange", visibility);
       sources.forEach(source => source.stop());
       void context.close();

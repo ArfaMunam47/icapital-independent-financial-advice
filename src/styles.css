@@ -106,7 +106,7 @@
 .opening-landscape { background: var(--journey-sky); }
 .mountain-back { position: absolute; bottom: 0; width: 100%; height: 49%; object-fit: cover; object-position: top; }
 .mountain-front { position: absolute; bottom: -3%; left: -3%; width: 106%; height: 23%; object-fit: cover; object-position: top; }
-.cloud-bank { position: absolute; width: 120%; left: -10%; pointer-events: none; object-fit: fill; }
+.cloud-bank { position: absolute; width: 120%; left: -10%; pointer-events: none; object-fit: cover; -webkit-mask-image: linear-gradient(to bottom, transparent, black 35%, black 70%, transparent); mask-image: linear-gradient(to bottom, transparent, black 35%, black 70%, transparent); }
 .cloud-bank-far { bottom: 0; height: 40%; opacity: 0.72; animation: cloud-flow 42s ease-in-out infinite alternate; }
 .cloud-bank-near { bottom: -18%; height: 34%; opacity: 0.5; animation: cloud-flow 29s ease-in-out -9s infinite alternate-reverse; }
 @keyframes cloud-flow { from { transform: translateX(-3%); } to { transform: translateX(4%); } }
@@ -193,7 +193,7 @@
 /* Living clouds, reveals and readable chapters */
 .cloud-drift { position: absolute; inset: 0; display: flex; width: 200%; pointer-events: none; animation: cloud-pan 140s linear infinite; }
 .cloud-drift img { width: 50%; height: 100%; object-fit: cover; }
-.cloud-drift-high { top: 4%; height: 46%; opacity: 0.32; }
+.cloud-drift-high { top: 0; height: 58%; opacity: 0.32; -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 55%, transparent); mask-image: linear-gradient(to bottom, transparent, black 25%, black 55%, transparent); }
 .cloud-drift-atmos { opacity: 0.16; mix-blend-mode: screen; animation-duration: 180s; z-index: 1; }
 @keyframes cloud-pan { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .opening-scrim { background: radial-gradient(ellipse 60% 38% at 50% 28%, oklch(0.2 0.07 255 / 0.32), transparent 75%); pointer-events: none; }
@@ -204,7 +204,34 @@
 .cloud-reveal-right { right: -6%; }
 .legacy-scene .video-copy-shade { background: radial-gradient(ellipse 70% 45% at 50% 30%, var(--scrim-strong), var(--scrim-clear) 80%); }
 .legacy-scene .story-heading { font-size: 38px; line-height: 1.2; text-shadow: var(--copy-shadow); }
-.paper-surface { background: var(--paper); }
+.paper-surface { background: linear-gradient(to bottom, var(--paper) 0%, oklch(1 0 0 / 0.86) 34%, oklch(1 0 0 / 0.5) 56%, oklch(1 0 0 / 0.08) 82%); }
+.paper-scene .story-copy { top: 18% !important; }
+.paper-scene .story-heading { font-size: clamp(24px, 2.8vw, 38px) !important; }
+/* Vision: editorial navy horizon */
+.horizon-canvas { background: var(--creative-ink); overflow: hidden; }
+.horizon-line { position: absolute; left: 8%; right: 8%; top: 68%; height: 1px; background: var(--border); }
+.horizon-light { position: absolute; top: -1px; height: 3px; width: 22%; background: linear-gradient(90deg, transparent, var(--creative-accent), transparent); animation: horizon-sweep 9s ease-in-out infinite alternate; }
+.horizon-glow { position: absolute; left: 50%; top: 68%; width: 60vmin; height: 30vmin; transform: translate(-50%, -100%); border-radius: 60vmin 60vmin 0 0; background: radial-gradient(ellipse at 50% 100%, oklch(0.82 0.1 235 / 0.22), transparent 70%); }
+.horizon-mark { position: absolute; top: 72%; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted-foreground); }
+@keyframes horizon-sweep { from { left: 0; } to { left: 78%; } }
+.creative-copy-vision { top: 24% !important; left: 8%; width: 70%; text-shadow: none !important; }
+.creative-copy-vision .story-heading { font-size: clamp(36px, 5vw, 64px) !important; }
+.creative-copy-vision .creative-bridge { font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--creative-accent); }
+/* Clarity: bright split chapter */
+.clarity-canvas { background: var(--paper); }
+.clarity-image { position: absolute; top: 0; right: 0; width: 46%; height: 100%; overflow: hidden; }
+.clarity-image img { width: 100%; height: 100%; object-fit: cover; }
+.clarity-scene { color: var(--brand-blue); --accent: var(--brand-blue); }
+.clarity-scene .creative-copy { text-shadow: none; left: 7%; width: 40%; }
+.clarity-scene .clarity-line { border-top: 1px solid oklch(0.36 0.12 258 / 0.2); padding-top: 14px; }
+.clarity-scene .clarity-line small { color: var(--brand-blue-soft); }
+.clarity-scene .story-heading { font-size: clamp(28px, 3.6vw, 46px) !important; }
+@media (max-width: 640px) {
+  .clarity-image { width: 100%; height: 34%; top: auto; bottom: 0; }
+  .clarity-scene .creative-copy { width: 86%; top: 16% !important; }
+  .creative-copy-vision { width: 86%; }
+}
+@media (prefers-reduced-motion: reduce) { .horizon-light { animation: none; left: 39%; } }
 .paper-scene { color: var(--brand-blue); --foreground: var(--brand-blue); --muted-foreground: var(--brand-blue-soft); --accent: var(--brand-blue); }
 .paper-scene .story-heading { font-size: clamp(30px, 4vw, 52px); font-weight: 300; line-height: 1.18; text-shadow: none; }
 .paper-scene .story-body { font-size: 16px; text-shadow: none; margin-inline: auto; }
