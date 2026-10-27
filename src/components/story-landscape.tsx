@@ -47,7 +47,24 @@ export function StoryLandscape({ kind, src, poster, progress }: {
     <video ref={video} src={src} poster={poster} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
   );
   if (kind === "horizon") return <div className="horizon-canvas absolute inset-0"><div className="horizon-glow" style={{ opacity: 0.5 + progress * 0.5 }} /><div className="horizon-line"><div className="horizon-light" /></div><span className="horizon-mark" style={{ left: "8%" }}>Today</span><span className="horizon-mark" style={{ right: "8%" }}>Long term</span></div>;
-  if (kind === "clarity") return <div className="clarity-canvas absolute inset-0"><div className="clarity-image"><img src={poster} alt="" style={{ transform: `scale(${1.12 - progress * 0.08})` }} /></div></div>;
+  if (kind === "clarity") {
+    // The sharp aperture widens from a narrow slit to a wide window as the playhead advances.
+    const open = Math.min(1, Math.max(0, (progress - 0.1) / 0.6));
+    const e = open * open * (3 - 2 * open);
+    const wide = typeof window !== "undefined" && window.innerWidth > 760;
+    const clip = wide
+      ? `inset(${18 - e * 6}% ${10 - e * 4}% ${18 - e * 6}% ${62 - e * 18}% round 4px)`
+      : `inset(${12 - e * 4}% ${14 - e * 8}% ${62 - e * 6}% ${14 - e * 8}% round 4px)`;
+    return (
+      <div className="clarity-canvas absolute inset-0">
+        <img src={poster} alt="" className="clarity-haze" />
+        <div className="clarity-veil" />
+        <div className="clarity-lens" style={{ clipPath: clip }}>
+          <img src={poster} alt="" style={{ transform: `scale(${1.08 - e * 0.06})` }} />
+        </div>
+      </div>
+    );
+  }
   if (kind === "silk" || kind === "current") return <><LivingLandscape variant={kind} progress={progress} /><div className="cloud-drift cloud-drift-atmos"><img src={clouds.url} alt="" /><img src={clouds.url} alt="" /></div></>;
   if (kind === "living-video") return <><video ref={video} src={src} poster={poster} loop muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /><div className="side-shade absolute inset-0" /></>;
   if (kind === "sunset") return <><img src={sunset.url} alt="" className="sunset-foreground" /><div className="side-shade absolute inset-0" /></>;

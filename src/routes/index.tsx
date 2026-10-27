@@ -52,7 +52,7 @@ const scenes: Scene[] = [
   { bg: "video", src: beach.url, poster: beachPoster.url, title: <><A>Neither</A><br />do we</> },
   { bg: "birds", title: <>And for 20 years<br />we have set the <A>course</A></> },
   { bg: "horizon", creative: "vision", title: <>Vision matters<span className="creative-bridge">when it becomes</span>a <A>decision.</A></> },
-  { bg: "clarity", poster: alpinePoster.url, tone: "dark", creative: "clarity", title: <><span className="clarity-line"><small>Complexity into</small><A>judgement.</A></span><span className="clarity-line"><small>Context into</small><A>clarity.</A></span><span className="clarity-line"><small>Vision into</small><A>decisions.</A></span></> },
+  { bg: "clarity", poster: alpinePoster.url, creative: "clarity", title: <><span className="clarity-eyebrow">A clearer perspective</span>See beyond<br />the <A>complexity.</A></>, body: <>The decisions that shape a life deserve more than a closer look. They ask for distance, independent thinking and a clear view of what lies ahead.<span className="clarity-closing">Clarity for the decisions that shape tomorrow.</span></> },
   { bg: "living-video", src: beach.url, poster: beachPoster.url, creative: "journey", title: <>Never hurry<br />the <A>journey.</A></> },
   { bg: "living-video", src: ridge.url, poster: ridgePoster.url, creative: "side", title: <>We take<br />your <A>side.</A></> },
   { bg: "video", src: arch.url, poster: archPoster.url, title: <>Every journey<br />opens a new <A>perspective</A></> },
