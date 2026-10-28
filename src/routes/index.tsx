@@ -4,7 +4,8 @@ import { useStoryProgress } from "@/hooks/use-story-progress";
 import { useStorySound } from "@/hooks/use-story-sound";
 import { StoryLandscape, CloudReveal } from "@/components/story-landscape";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { ContactEnding } from "@/components/contact-ending";
+import { Volume2, VolumeX } from "lucide-react";
 import ridge from "@/assets/reference-scene_02_2segs_HD.webm.asset.json";
 import alpine from "@/assets/reference-scene_03_2segs_HD.webm.asset.json";
 import trail from "@/assets/reference-scene_04_3segs_HD.webm.asset.json";
@@ -226,16 +227,7 @@ function Index() {
         </div>
       </div>
     </div>
-    <footer className="journey-ending relative overflow-hidden">
-      <div className="ending-content relative">
-        <h2>Your next <A>chapter.</A></h2>
-        <Button variant="ghost" onClick={() => setPanel("contact")} className="ending-cta">Let’s talk <ArrowUpRight aria-hidden="true" /></Button>
-      </div>
-      <div className="ending-signature relative">
-        <span className="ending-wordmark"><span>i</span>Capital</span>
-        <div className="ending-meta"><span>© 2026 iCapital</span><Button variant="ghost" size="icon" title="Back to the beginning" aria-label="Back to the beginning" onClick={() => jump(0)} className="ending-replay"><RotateCcw aria-hidden="true" /></Button></div>
-      </div>
-    </footer>
+    <ContactEnding jump={jump} />
     </>
   );
 }
