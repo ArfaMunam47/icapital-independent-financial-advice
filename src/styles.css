@@ -138,28 +138,98 @@
 .creative-copy-side .story-heading { font-size: 64px; }
 .side-shade { z-index: 2; background: linear-gradient(90deg, var(--scrim-strong), var(--scrim-clear) 90%); }
 .creative-copy-side { z-index: 3; }
-/* Ending: one continuous closing — tonal shift from the last scene's blue-navy into deep navy */
-.journey-ending { overflow: visible !important; z-index: 2; background: var(--closing-background); color: var(--closing-ink); --accent: var(--closing-accent); display: flex; flex-direction: column; gap: clamp(56px, 8vw, 88px); padding: clamp(40px, 6vw, 72px) 8% 32px; }
-/* Long, soft fade that rises over the final scene so there is no visible edge */
-.journey-ending::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 70vh; pointer-events: none; background: linear-gradient(to bottom, oklch(0.16 0.05 260 / 0) 0%, oklch(0.16 0.05 260 / 0.35) 40%, oklch(0.16 0.05 260 / 0.8) 75%, var(--closing-background) 100%); }
-.ending-content { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; max-width: 1200px; width: 100%; margin-inline: auto; }
-.ending-content h2 { font-size: clamp(44px, 5.4vw, 72px); line-height: 1.04; font-weight: 300; letter-spacing: -0.02em; max-width: 12ch; }
-.ending-cta { color: var(--closing-ink); padding: 0 0 12px; margin-bottom: 10px; height: auto; border-radius: 0; border-bottom: 1px solid oklch(0.97 0.005 250 / 0.4); font-size: 14px; letter-spacing: 0.04em; gap: 40px; transition: color 0.3s, border-color 0.3s; }
-.ending-cta:hover, .ending-replay:hover { background: transparent; color: var(--closing-accent); }
-.ending-cta:hover { border-color: var(--closing-accent); }
-.ending-cta svg { width: 22px; height: 22px; transition: transform 0.3s; }
-.ending-cta:hover svg { transform: translate(3px, -3px); }
-.ending-signature { max-width: 1200px; width: 100%; margin-inline: auto; padding-top: 22px; border-top: 1px solid var(--closing-border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.ending-wordmark { display: block; font-size: 22px; font-weight: 400; line-height: 1; }
-.ending-wordmark > span { color: var(--closing-accent); }
-.ending-meta { display: flex; align-items: center; gap: 20px; font-size: 11px; color: oklch(0.97 0.005 250 / 0.6); }
-.ending-replay { color: inherit; }
+/* Final contact and footer: scoped tokens never alter the cinematic story. */
+.contact-ending, .white-ending {
+  --ending-navy: var(--closing-background);
+  --ending-white: var(--paper);
+  --ending-panel: oklch(0.985 0.003 250);
+  --ending-body: oklch(0.72 0.025 250);
+  --ending-neutral: oklch(0.52 0.025 250);
+  --ending-divider: oklch(0.86 0.012 250);
+  --ending-error: oklch(0.48 0.17 25);
+  --ending-focus: var(--brand-blue-soft);
+  --ending-panel-shadow: 0 18px 60px oklch(0.08 0.03 260 / 0.14);
+  letter-spacing: 0;
+}
+.contact-ending { position: relative; z-index: 2; background: var(--ending-navy); color: var(--closing-ink); padding: 96px 7%; }
+.contact-ending-layout { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1.08fr; gap: 8%; align-items: center; }
+.contact-eyebrow { font-size: 10px; text-transform: uppercase; color: var(--closing-accent); margin-bottom: 30px; }
+.contact-invitation h2 { font-size: 48px; line-height: 1.2; font-weight: 300; max-width: 13ch; }
+.contact-invitation h2 em { font-family: var(--font-serif); color: var(--closing-accent); }
+.contact-intro { max-width: 37ch; font-size: 14px; line-height: 1.9; color: var(--ending-body); margin-top: 30px; }
+.contact-editorial { display: flex; align-items: center; gap: 18px; margin-top: 46px; font-size: 11px; line-height: 1.8; color: var(--ending-body); }
+.contact-editorial > span { width: 40px; height: 1px; background: var(--closing-accent); }
+.contact-form { background: var(--ending-panel); color: var(--ending-navy); border-radius: 4px; padding: 36px; box-shadow: var(--ending-panel-shadow); }
+.contact-form-heading { padding-bottom: 26px; margin-bottom: 26px; border-bottom: 1px solid var(--ending-divider); }
+.contact-form-heading h3 { font-weight: 400; font-size: 21px; line-height: 1.5; }
+.contact-form-heading p { font-size: 11px; color: var(--ending-neutral); margin-top: 5px; }
+.contact-fields { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px 18px; }
+.contact-field { display: flex; flex-direction: column; min-width: 0; gap: 8px; }
+.contact-field-wide { grid-column: 1 / -1; }
+.contact-field label { font-size: 11px; font-weight: 500; }
+.contact-field input, .contact-field select, .contact-field textarea { width: 100%; min-width: 0; border: 0; border-bottom: 1px solid var(--ending-divider); border-radius: 0; background: transparent; color: var(--ending-navy); font: inherit; font-size: 12px; min-height: 42px; padding: 8px 0; }
+.contact-field select { padding-right: 12px; }
+.contact-field textarea { resize: vertical; min-height: 84px; }
+.contact-field input::placeholder, .contact-field textarea::placeholder { color: var(--ending-neutral); opacity: 1; }
+.contact-field :is(input, select, textarea):focus-visible { outline: 2px solid var(--ending-focus); outline-offset: 4px; border-color: var(--ending-focus); }
+.contact-field [aria-invalid=true] { border-color: var(--ending-error); }
+.contact-error { color: var(--ending-error); font-size: 11px; line-height: 1.5; }
+.contact-availability { font-size: 10px; line-height: 1.65; color: var(--ending-neutral); margin-top: 24px; }
+.contact-submit { display: flex; justify-content: space-between; width: 100%; min-height: 48px; margin-top: 14px; border-radius: 2px; background: var(--ending-navy); color: var(--ending-white); font-size: 12px; box-shadow: none; padding-inline: 18px; }
+.contact-submit:hover { background: var(--brand-blue); }
+.contact-submit svg { transition: transform 180ms ease; }
+.contact-submit:hover svg { transform: translate(2px,-2px); }
+.contact-privacy { font-size: 10px; line-height: 1.65; color: var(--ending-neutral); margin-top: 12px; }
+.contact-feedback { font-size: 12px; line-height: 1.7; }
+.contact-feedback:has(p) { margin-top: 22px; border-top: 1px solid var(--ending-divider); padding-top: 18px; }
+.contact-feedback strong { display: block; font-weight: 500; margin-bottom: 5px; }
+.contact-copy { color: var(--brand-blue); padding-left: 0; margin-top: 8px; font-size: 12px; }
+.contact-copy:hover { background: transparent; color: var(--ending-navy); }
+.contact-ending :is(button):focus-visible, .white-ending button:focus-visible { outline: 2px solid var(--ending-focus); outline-offset: 4px; }
+.white-ending { background: var(--ending-white); color: var(--ending-navy); padding: 50px 7% 24px; position: relative; z-index: 2; }
+.white-ending-main, .white-ending-legal { max-width: 1200px; margin-inline: auto; }
+.white-ending-main { display: flex; justify-content: space-between; gap: 60px; padding-bottom: 40px; }
+.footer-logo { padding: 0; height: auto; color: var(--ending-navy); gap: 10px; border-radius: 0; justify-content: flex-start; }
+.footer-logo:hover { background: transparent; }
+.footer-logo > span { font-size: 30px; font-weight: 500; line-height: 1.2; }
+.footer-logo i { font-style: normal; color: var(--brand-blue-soft); }
+.footer-logo small { font-size: 7px; font-weight: 400; text-align: left; text-transform: uppercase; line-height: 1.6; }
+.footer-brand > p { font-size: 11px; color: var(--ending-neutral); margin-top: 16px; }
+.footer-chapters { display: flex; gap: 70px; }
+.footer-chapters > div { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.footer-chapters h3 { font-size: 10px; font-weight: 500; margin-bottom: 9px; color: var(--ending-neutral); }
+.footer-chapters button { font-size: 12px; font-weight: 400; padding: 0; border-radius: 0; height: 26px; color: var(--ending-navy); }
+.footer-chapters button:hover, .footer-replay:hover { background: transparent; color: var(--brand-blue-soft); }
+.white-ending-legal { border-top: 1px solid var(--ending-divider); padding-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 10px; color: var(--ending-neutral); }
+.footer-replay { font-size: 10px; font-weight: 400; color: var(--ending-neutral); height: 32px; padding: 0; gap: 14px; }
+@media (max-width: 1000px) {
+  .contact-ending { padding: 72px 6%; }
+  .contact-ending-layout { gap: 5%; }
+  .contact-invitation h2 { font-size: 40px; }
+  .contact-form { padding: 26px; }
+  .contact-fields { grid-template-columns: minmax(0,1fr); gap: 18px; }
+}
+@media (max-width: 760px) {
+  .contact-ending { padding: 56px 7%; }
+  .contact-ending-layout { grid-template-columns: minmax(0,1fr); gap: 38px; }
+  .contact-invitation h2 { font-size: 38px; max-width: 16ch; }
+  .contact-eyebrow { margin-bottom: 22px; }
+  .contact-intro { margin-top: 22px; max-width: 46ch; }
+  .contact-editorial { margin-top: 26px; }
+  .contact-form { padding: 26px; }
+  .contact-field input, .contact-field select, .contact-field textarea { font-size: 16px; }
+  .white-ending { padding: 38px 7% 24px; }
+  .white-ending-main { flex-direction: column; gap: 32px; padding-bottom: 28px; }
+  .footer-chapters { gap: 42px; flex-wrap: wrap; }
+  .white-ending-legal { flex-wrap: wrap; padding-left: 50px; }
+  .footer-replay { white-space: normal; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .contact-submit svg { transition: none; transform: none !important; } }
 @media (max-width: 1000px) {
   .creative-copy .story-heading { font-size: 52px; }
   .creative-copy-clarity .story-heading { font-size: 46px; }
   .creative-copy-side .story-heading, .creative-copy-journey .story-heading { font-size: 48px; }
   .creative-copy { left: 7%; width: 72%; }
-  .ending-content h2 { font-size: 40px; }
 }
 @media (max-width: 640px) {
   .story-heading { font-size: 25px; }
@@ -175,12 +245,6 @@
   .creative-copy-side .story-heading, .creative-copy-journey .story-heading { font-size: 38px; }
   .creative-bridge { font-size: 18px; margin: 16px 0; }
   .creative-chapter { margin-bottom: 22px; font-size: 9px; }
-  .journey-ending { padding: 72px 7% 24px 7%; gap: 56px; }
-  .ending-content { align-items: flex-start; flex-direction: column; gap: 28px; }
-  .ending-content h2 { font-size: 40px; }
-  .ending-signature { padding-left: 52px; }
-  .ending-wordmark { font-size: 20px; }
-  .ending-meta { gap: 8px; }
 }
 @media (max-height: 620px) {
   .creative-copy { top: 25%; }
