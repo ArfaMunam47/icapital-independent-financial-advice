@@ -139,7 +139,9 @@
 .side-shade { z-index: 2; background: linear-gradient(90deg, var(--scrim-strong), var(--scrim-clear) 90%); }
 .creative-copy-side { z-index: 3; }
 /* Ending: one continuous closing — tonal shift from the last scene's blue-navy into deep navy */
-.journey-ending { background: linear-gradient(to bottom, var(--ink) 0%, oklch(0.22 0.055 258) 38%, var(--closing-background) 100%); color: var(--closing-ink); --accent: var(--closing-accent); display: flex; flex-direction: column; gap: clamp(56px, 8vw, 96px); padding: clamp(88px, 11vw, 136px) 8% 32px; }
+.journey-ending { overflow: visible !important; z-index: 2; background: var(--closing-background); color: var(--closing-ink); --accent: var(--closing-accent); display: flex; flex-direction: column; gap: clamp(56px, 8vw, 88px); padding: clamp(40px, 6vw, 72px) 8% 32px; }
+/* Long, soft fade that rises over the final scene so there is no visible edge */
+.journey-ending::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 70vh; pointer-events: none; background: linear-gradient(to bottom, oklch(0.16 0.05 260 / 0) 0%, oklch(0.16 0.05 260 / 0.35) 40%, oklch(0.16 0.05 260 / 0.8) 75%, var(--closing-background) 100%); }
 .ending-content { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; max-width: 1200px; width: 100%; margin-inline: auto; }
 .ending-content h2 { font-size: clamp(44px, 5.4vw, 72px); line-height: 1.04; font-weight: 300; letter-spacing: -0.02em; max-width: 12ch; }
 .ending-cta { color: var(--closing-ink); padding: 0 0 12px; margin-bottom: 10px; height: auto; border-radius: 0; border-bottom: 1px solid oklch(0.97 0.005 250 / 0.4); font-size: 14px; letter-spacing: 0.04em; gap: 40px; transition: color 0.3s, border-color 0.3s; }
