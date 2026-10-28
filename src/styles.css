@@ -138,18 +138,19 @@
 .creative-copy-side .story-heading { font-size: 64px; }
 .side-shade { z-index: 2; background: linear-gradient(90deg, var(--scrim-strong), var(--scrim-clear) 90%); }
 .creative-copy-side { z-index: 3; }
-.journey-ending::before { content: ""; position: absolute; inset: 0 0 auto; height: 1px; background: linear-gradient(90deg, transparent, var(--closing-accent), transparent); opacity: 0.5; }
-.journey-ending { box-shadow: 0 -60px 80px -20px var(--closing-background); background: var(--closing-background); color: var(--closing-ink); --accent: var(--closing-accent); min-height: 390px; display: flex; flex-direction: column; justify-content: space-between; padding: 72px 8% 28px; }
-.ending-content { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-.ending-content h2 { font-size: 48px; line-height: 1.15; font-weight: 300; }
-.ending-cta { color: var(--closing-ink); padding: 0 0 12px; height: auto; border-radius: 0; border-bottom: 1px solid var(--closing-border); font-size: 14px; gap: 36px; }
+/* Ending: one continuous closing — tonal shift from the last scene's blue-navy into deep navy */
+.journey-ending { background: linear-gradient(to bottom, var(--ink) 0%, oklch(0.22 0.055 258) 38%, var(--closing-background) 100%); color: var(--closing-ink); --accent: var(--closing-accent); display: flex; flex-direction: column; gap: clamp(56px, 8vw, 96px); padding: clamp(88px, 11vw, 136px) 8% 32px; }
+.ending-content { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; max-width: 1200px; width: 100%; margin-inline: auto; }
+.ending-content h2 { font-size: clamp(44px, 5.4vw, 72px); line-height: 1.04; font-weight: 300; letter-spacing: -0.02em; max-width: 12ch; }
+.ending-cta { color: var(--closing-ink); padding: 0 0 12px; margin-bottom: 10px; height: auto; border-radius: 0; border-bottom: 1px solid oklch(0.97 0.005 250 / 0.4); font-size: 14px; letter-spacing: 0.04em; gap: 40px; transition: color 0.3s, border-color 0.3s; }
 .ending-cta:hover, .ending-replay:hover { background: transparent; color: var(--closing-accent); }
-.ending-cta svg { width: 24px; height: 24px; transition: transform 0.3s; }
+.ending-cta:hover { border-color: var(--closing-accent); }
+.ending-cta svg { width: 22px; height: 22px; transition: transform 0.3s; }
 .ending-cta:hover svg { transform: translate(3px, -3px); }
-.ending-signature { margin-top: 68px; padding-top: 24px; border-top: 1px solid var(--closing-border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.ending-wordmark { display: block; font-size: 28px; font-weight: 400; line-height: 1; }
+.ending-signature { max-width: 1200px; width: 100%; margin-inline: auto; padding-top: 22px; border-top: 1px solid var(--closing-border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.ending-wordmark { display: block; font-size: 22px; font-weight: 400; line-height: 1; }
 .ending-wordmark > span { color: var(--closing-accent); }
-.ending-meta { display: flex; align-items: center; gap: 24px; font-size: 10px; }
+.ending-meta { display: flex; align-items: center; gap: 20px; font-size: 11px; color: oklch(0.97 0.005 250 / 0.6); }
 .ending-replay { color: inherit; }
 @media (max-width: 1000px) {
   .creative-copy .story-heading { font-size: 52px; }
@@ -172,11 +173,12 @@
   .creative-copy-side .story-heading, .creative-copy-journey .story-heading { font-size: 38px; }
   .creative-bridge { font-size: 18px; margin: 16px 0; }
   .creative-chapter { margin-bottom: 22px; font-size: 9px; }
-  .journey-ending { min-height: 360px; padding: 56px 7% 24px; }
+  .journey-ending { padding: 72px 7% 24px 7%; gap: 56px; }
   .ending-content { align-items: flex-start; flex-direction: column; gap: 28px; }
-  .ending-content h2 { font-size: 34px; }
-  .ending-wordmark { font-size: 25px; }
-  .ending-meta { gap: 12px; }
+  .ending-content h2 { font-size: 40px; }
+  .ending-signature { padding-left: 52px; }
+  .ending-wordmark { font-size: 20px; }
+  .ending-meta { gap: 8px; }
 }
 @media (max-height: 620px) {
   .creative-copy { top: 25%; }

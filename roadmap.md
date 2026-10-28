@@ -4,3 +4,4 @@
 - [x] Verify movement, readability and closing interactions.
 - [x] Add and verify opt-in scene sound, crossfades and mute.
 - [x] Refinement brief: living hero clouds, cloud reveal, legacy readability, white/blue section, navy chapters, balanced closing sizes, navy footer.- [x] V2 brief: seamless opening clouds, scene-specific sound with footsteps, clearer family scene, editorial Vision redesign, distinct clarity chapter.
+- [x] Final CTA + footer as one seamless closing.
